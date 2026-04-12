@@ -1,0 +1,21 @@
+{
+  "managed": {
+    "animate": "symlink",
+    "arrange": "symlink",
+    "brainstorming": "symlink",
+    "dispatching-parallel-agents": "symlink",
+    "executing-plans": "symlink",
+    "finishing-a-development-branch": "symlink",
+    "receiving-code-review": "symlink",
+    "requesting-code-review": "symlink",
+    "subagent-driven-development": "symlink",
+    "systematic-debugging": "symlink",
+    "test-driven-development": "symlink",
+    "using-git-worktrees": "symlink",
+    "using-superpowers": "symlink",
+    "verification-before-completion": "symlink",
+    "writing-plans": "symlink",
+    "writing-skills": "symlink"
+  },
+  "updated_at": "2026-04-11T03:37:01.181142+07:00"
+}
