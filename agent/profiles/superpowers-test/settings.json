@@ -1,0 +1,5 @@
+{
+	"skillpacks": ["react-frontend"],
+	"packages": ["npm:pi-superpowers-plus"],
+	"defaultThinkingLevel": "high"
+}

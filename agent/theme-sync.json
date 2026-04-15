@@ -1,9 +1,9 @@
 {
-  "themes": {
-    "light": "catppuccin-latte",
-    "dark": "catppuccin-mocha"
-  },
-  "detection": {
-    "pollIntervalMs": 6000
-  }
+	"themes": {
+		"light": "catppuccin-latte",
+		"dark": "catppuccin-mocha"
+	},
+	"detection": {
+		"pollIntervalMs": 6000
+	}
 }

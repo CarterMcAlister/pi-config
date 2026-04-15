@@ -1,11 +1,8 @@
 {
-  "lastChangelogVersion": "0.66.1",
+  "lastChangelogVersion": "0.67.2",
   "packages": [
     "npm:pi-subagents",
     "npm:@thurstonsand/pi-powerline-footer",
-    "npm:@ryan_nookpi/pi-extension-codex-fast-mode",
-    "npm:@ryan_nookpi/pi-extension-auto-name",
-    "npm:@alexanderfortin/pi-loaded-tools",
     "npm:pi-rtk-optimizer",
     "npm:pi-mermaid",
     "npm:pi-btw",
@@ -14,10 +11,8 @@
     "npm:@aliou/pi-processes",
     "npm:pi-mcp-adapter",
     "npm:pi-annotate",
-    "npm:pi-monitor",
     "npm:pi-screenshots-picker",
     "npm:@ogulcancelik/pi-session-recall",
-    "npm:pi-notify",
     "npm:pi-ask-user",
     "npm:@victor-software-house/pi-multicodex",
     "npm:@sherif-fanous/pi-theme-sync",
@@ -29,11 +24,27 @@
     "npm:@benvargas/pi-claude-code-use",
     "npm:pi-command-center",
     "npm:pi-tool-display",
-    "npm:@tmustier/pi-agent-teams",
     "npm:@tintinweb/pi-tasks",
-    "npm:pi-compass"
+    "npm:pi-compass",
+    "npm:glimpseui",
+    {
+      "source": "https://github.com/CarterMcAlister/pi-packages",
+      "extensions": [
+        "packages/pi-auto-name/src/index.ts",
+        "packages/pi-skillpacks/src/skillpack-session-loader.ts",
+        "packages/pi-worktrunk/src/index.ts"
+      ]
+    },
+    "npm:@alexanderfortin/pi-loaded-tools"
+  ],
+  "extensions": [
+    "/Users/carter/Developer/repos/pi-packages/packages/pi-profiles"
   ],
   "disabledPackages": [
+    "npm:pi-monitor",
+    "npm:@tmustier/pi-agent-teams",
+    "npm:pi-ghostty-notifier",
+    "npm:pi-notify",
     "npm:@ogulcancelik/pi-ghostty-theme-sync",
     "npm:pi-lens",
     "npm:@venthezone/picord",
@@ -42,12 +53,11 @@
     "npm:pi-superpowers-plus",
     "npm:@heyhuynhgiabuu/pi-diff",
     "npm:@heyhuynhgiabuu/pi-pretty"
-
   ],
   "hideThinkingBlock": true,
   "quietStartup": false,
   "defaultThinkingLevel": "high",
-  "theme": "catppuccin-latte",
+  "theme": "catppuccin-mocha",
   "steeringMode": "one-at-a-time",
   "transport": "sse",
   "doubleEscapeAction": "tree",
