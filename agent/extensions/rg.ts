@@ -27,18 +27,29 @@ type SearchEvent = {
 	}>;
 };
 
+type FileMatchSummary = {
+	path: string;
+	matchCount: number;
+};
+
 type SearchResult = {
 	resolvedPath: string;
 	matchCount: number;
 	fileCount: number;
-	events: SearchEvent[];
+	previewEvents: SearchEvent[];
+	totalEventCount: number;
+	topFiles: FileMatchSummary[];
 	truncated: boolean;
 	exitCode: number | null;
 	stderr: string;
 };
 
-const MAX_LINE_TEXT = 300;
-const DEFAULT_LIMIT = 50;
+const MAX_LINE_TEXT = 140;
+const MAX_SUMMARY_TEXT = 240;
+const MAX_CONTENT_CHARS = 1800;
+const DEFAULT_LIMIT = 20;
+const DEFAULT_PREVIEW_EVENTS = 8;
+const MAX_TOP_FILES = 5;
 
 function normalizePathInput(path: string | undefined): string | undefined {
 	if (!path) return undefined;
@@ -60,16 +71,123 @@ function decodeTextOrBytes(value: TextOrBytes | undefined): string {
 	return "";
 }
 
-function trimLine(text: string): string {
+function trimText(text: string, maxChars: number): string {
 	const singleLine = text.replace(/\r?\n/g, "\\n");
-	if (singleLine.length <= MAX_LINE_TEXT) return singleLine;
-	return `${singleLine.slice(0, MAX_LINE_TEXT - 3)}...`;
+	if (singleLine.length <= maxChars) return singleLine;
+	return `${singleLine.slice(0, Math.max(0, maxChars - 3))}...`;
+}
+
+function trimLine(text: string): string {
+	return trimText(text, MAX_LINE_TEXT);
 }
 
 function formatEvent(event: SearchEvent): string {
 	const prefix = event.kind === "context" ? "-" : ":";
 	const lineNumber = event.lineNumber ?? "?";
 	return `${event.path}:${lineNumber}${prefix} ${trimLine(event.text)}`;
+}
+
+function formatTopFiles(topFiles: FileMatchSummary[]): string {
+	return trimText(topFiles.map((file) => `${file.path} (${file.matchCount})`).join(", "), MAX_SUMMARY_TEXT);
+}
+
+function joinWithinBudget(lines: string[], maxChars: number): string {
+	if (lines.length === 0) return "";
+	let result = "";
+
+	for (const line of lines) {
+		const next = result ? `${result}\n${line}` : line;
+		if (next.length <= maxChars) {
+			result = next;
+			continue;
+		}
+
+		if (!result) {
+			return trimText(line, maxChars);
+		}
+
+		const suffix = "\n...";
+		if (result.length + suffix.length <= maxChars) {
+			return `${result}${suffix}`;
+		}
+		if (maxChars <= 3) return ".".repeat(maxChars);
+		return `${result.slice(0, maxChars - 3)}...`;
+	}
+
+	return result;
+}
+
+function getTopFiles(fileMatchCounts: Map<string, number>): FileMatchSummary[] {
+	return [...fileMatchCounts.entries()]
+		.map(([path, matchCount]) => ({ path, matchCount }))
+		.sort((left, right) => right.matchCount - left.matchCount || left.path.localeCompare(right.path))
+		.slice(0, MAX_TOP_FILES);
+}
+
+function buildResultText(
+	result: SearchResult,
+	params: {
+		pattern: string;
+		limit?: number;
+	},
+): string {
+	const limit = Math.max(1, params.limit ?? DEFAULT_LIMIT);
+	const lines: string[] = [];
+
+	if (result.matchCount === 0) {
+		lines.push(`No matches found for ${JSON.stringify(params.pattern)} in ${result.resolvedPath}`);
+		if (result.stderr) lines.push(`stderr: ${trimLine(result.stderr)}`);
+		return joinWithinBudget(lines, MAX_CONTENT_CHARS);
+	}
+
+	lines.push(
+		`Found ${result.matchCount} ${result.matchCount === 1 ? "match" : "matches"} in ${result.fileCount} ${result.fileCount === 1 ? "file" : "files"} under ${result.resolvedPath}`,
+	);
+
+	if (result.topFiles.length > 0) {
+		lines.push(`Top files: ${formatTopFiles(result.topFiles)}`);
+	}
+
+	const previewLines: string[] = [];
+	for (const event of result.previewEvents) {
+		const formattedEvent = formatEvent(event);
+		const omittedCount = result.totalEventCount - (previewLines.length + 1);
+		const footerLines: string[] = [];
+		if (omittedCount > 0) {
+			footerLines.push(
+				`Showing ${previewLines.length + 1} preview ${(previewLines.length + 1) === 1 ? "line" : "lines"}; ${omittedCount} more ${omittedCount === 1 ? "event" : "events"} omitted.`,
+			);
+		}
+		if (result.truncated) {
+			footerLines.push(`Stopped after reaching the limit of ${limit} matches.`);
+		}
+		if (result.stderr) {
+			footerLines.push(`stderr: ${trimLine(result.stderr)}`);
+		}
+
+		const candidateLines = [...lines, "Preview:", ...previewLines, formattedEvent, ...footerLines];
+		if (candidateLines.join("\n").length > MAX_CONTENT_CHARS) break;
+		previewLines.push(formattedEvent);
+	}
+
+	if (previewLines.length > 0) {
+		lines.push("Preview:", ...previewLines);
+	}
+
+	const omittedCount = result.totalEventCount - previewLines.length;
+	if (omittedCount > 0) {
+		lines.push(
+			`Showing ${previewLines.length} preview ${previewLines.length === 1 ? "line" : "lines"}; ${omittedCount} more ${omittedCount === 1 ? "event" : "events"} omitted.`,
+		);
+	}
+	if (result.truncated) {
+		lines.push(`Stopped after reaching the limit of ${limit} matches.`);
+	}
+	if (result.stderr) {
+		lines.push(`stderr: ${trimLine(result.stderr)}`);
+	}
+
+	return joinWithinBudget(lines, MAX_CONTENT_CHARS);
 }
 
 function parseEvent(line: string): SearchEvent | null {
@@ -135,9 +253,11 @@ function runRipgrep(
 			stdio: ["ignore", "pipe", "pipe"],
 		});
 
-		const events: SearchEvent[] = [];
+		const previewEvents: SearchEvent[] = [];
 		const filesWithMatches = new Set<string>();
+		const fileMatchCounts = new Map<string, number>();
 		let matchCount = 0;
+		let totalEventCount = 0;
 		let truncated = false;
 		let intentionallyStopped = false;
 		let stdoutBuffer = "";
@@ -153,6 +273,29 @@ function runRipgrep(
 		const onAbort = () => {
 			stopChild();
 			rejectPromise(new Error("aborted"));
+		};
+
+		const handleEvent = (event: SearchEvent) => {
+			if (truncated) return true;
+
+			if (event.kind === "match") {
+				matchCount += 1;
+				filesWithMatches.add(event.path);
+				fileMatchCounts.set(event.path, (fileMatchCounts.get(event.path) ?? 0) + 1);
+			}
+
+			totalEventCount += 1;
+			if (previewEvents.length < DEFAULT_PREVIEW_EVENTS) {
+				previewEvents.push(event);
+			}
+
+			if (matchCount >= limit) {
+				truncated = true;
+				stopChild();
+				return true;
+			}
+
+			return false;
 		};
 
 		signal?.addEventListener("abort", onAbort, { once: true });
@@ -172,18 +315,7 @@ function runRipgrep(
 				try {
 					const event = parseEvent(line);
 					if (!event) continue;
-					if (event.kind === "match") {
-						matchCount += 1;
-						filesWithMatches.add(event.path);
-					}
-					if (matchCount <= limit) {
-						events.push(event);
-					}
-					if (matchCount >= limit) {
-						truncated = true;
-						stopChild();
-						break;
-					}
+					if (handleEvent(event)) break;
 				} catch {
 					// Ignore malformed JSON lines from ripgrep.
 				}
@@ -198,16 +330,10 @@ function runRipgrep(
 			signal?.removeEventListener("abort", onAbort);
 			if (signal?.aborted) return;
 
-			if (stdoutBuffer.trim()) {
+			if (!truncated && stdoutBuffer.trim()) {
 				try {
 					const event = parseEvent(stdoutBuffer.trim());
-					if (event) {
-						if (event.kind === "match") {
-							matchCount += 1;
-							filesWithMatches.add(event.path);
-						}
-						if (matchCount <= limit) events.push(event);
-					}
+					if (event) handleEvent(event);
 				} catch {
 					// Ignore trailing malformed JSON.
 				}
@@ -222,7 +348,9 @@ function runRipgrep(
 				resolvedPath: targetPath,
 				matchCount,
 				fileCount: filesWithMatches.size,
-				events,
+				previewEvents,
+				totalEventCount,
+				topFiles: getTopFiles(fileMatchCounts),
 				truncated,
 				exitCode: code,
 				stderr: stderr.trim(),
@@ -257,28 +385,9 @@ export default function registerRipgrepTool(pi: ExtensionAPI) {
 
 			try {
 				const result = await runRipgrep(ctx.cwd, params, signal);
-				const lines: string[] = [];
-
-				if (result.matchCount === 0) {
-					lines.push(`No matches found for ${JSON.stringify(params.pattern)} in ${result.resolvedPath}`);
-				} else {
-					lines.push(
-						`Found ${result.matchCount} ${result.matchCount === 1 ? "match" : "matches"} in ${result.fileCount} ${result.fileCount === 1 ? "file" : "files"} under ${result.resolvedPath}`,
-					);
-					for (const event of result.events) {
-						lines.push(formatEvent(event));
-					}
-					if (result.truncated) {
-						lines.push(`Stopped after reaching the limit of ${Math.max(1, params.limit ?? DEFAULT_LIMIT)} matches.`);
-					}
-				}
-
-				if (result.stderr) {
-					lines.push(`stderr: ${trimLine(result.stderr)}`);
-				}
 
 				return {
-					content: [{ type: "text", text: lines.join("\n") }],
+					content: [{ type: "text", text: buildResultText(result, params) }],
 					details: {
 						pattern: params.pattern,
 						path: result.resolvedPath,
@@ -289,9 +398,12 @@ export default function registerRipgrepTool(pi: ExtensionAPI) {
 						limit: Math.max(1, params.limit ?? DEFAULT_LIMIT),
 						matchCount: result.matchCount,
 						fileCount: result.fileCount,
+						totalEventCount: result.totalEventCount,
+						previewEventCount: result.previewEvents.length,
+						topFiles: result.topFiles,
 						truncated: result.truncated,
 						exitCode: result.exitCode,
-						events: result.events,
+						events: result.previewEvents,
 						stderr: result.stderr,
 					},
 				};

@@ -1,6 +1,7 @@
 {
-  "lastChangelogVersion": "0.67.2",
+  "lastChangelogVersion": "0.67.6",
   "packages": [
+    "npm:pi-web-access",
     "npm:pi-subagents",
     "npm:@thurstonsand/pi-powerline-footer",
     "npm:pi-rtk-optimizer",
@@ -35,7 +36,8 @@
         "packages/pi-worktrunk/src/index.ts"
       ]
     },
-    "npm:@alexanderfortin/pi-loaded-tools"
+    "npm:@alexanderfortin/pi-loaded-tools",
+    "npm:pi-context"
   ],
   "extensions": [
     "/Users/carter/Developer/repos/pi-packages/packages/pi-profiles"
@@ -57,7 +59,7 @@
   "hideThinkingBlock": true,
   "quietStartup": false,
   "defaultThinkingLevel": "high",
-  "theme": "catppuccin-mocha",
+  "theme": "catppuccin-latte",
   "steeringMode": "one-at-a-time",
   "transport": "sse",
   "doubleEscapeAction": "tree",
@@ -68,6 +70,30 @@
     "openai-codex/gpt-5.3-codex",
     "anthropic/claude-opus-4-6"
   ],
+  "subagents": {
+    "agentOverrides": {
+      "context-builder": {
+        "model": "openai-codex/gpt-5.3-codex",
+        "thinking": "high"
+      },
+      "planner": {
+        "model": "openai-codex/gpt-5.3-codex",
+        "thinking": "high"
+      },
+      "researcher": {
+        "model": "openai-codex/gpt-5.3-codex",
+        "thinking": "high"
+      },
+      "scout": {
+        "model": "openai-codex/gpt-5.3-codex",
+        "thinking": "high"
+      },
+      "worker": {
+        "model": "openai-codex/gpt-5.3-codex",
+        "thinking": "high"
+      }
+    }
+  },
   "powerline": {
     "vibe": {
       "theme": "theme"
