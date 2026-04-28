@@ -1,114 +1,102 @@
 {
-	"lastChangelogVersion": "0.70.0",
-	"packages": [
-		"npm:@thurstonsand/pi-powerline-footer",
-		"npm:pi-web-access",
-		"npm:pi-subagents",
-		"npm:pi-rtk-optimizer",
-		"npm:pi-btw",
-		"npm:@benvargas/pi-openai-fast",
-		"npm:@benvargas/pi-claude-code-use",
-		"npm:pi-mcp-adapter",
-		"npm:@sherif-fanous/pi-theme-sync",
-		"npm:@ogulcancelik/pi-session-recall",
-		"npm:@tintinweb/pi-tasks",
-		"npm:pi-ask-user",
-		"npm:pi-interactive-shell",
-		"npm:@aliou/pi-processes",
-		"npm:glimpseui",
-		"npm:@victor-software-house/pi-multicodex",
-		"npm:@heyhuynhgiabuu/pi-diff",
-		"npm:@heyhuynhgiabuu/pi-pretty"
-	],
-	"disabledPackages": [
-		"../../Developer/repos/pi-packages",
-
-		"npm:pi-mermaid",
-		"npm:pi-extension-manager",
-		"npm:pi-markdown-preview",
-		"npm:pi-annotate",
-		"npm:pi-screenshots-picker",
-		"git:github.com/joelhooks/pi-skill-interpolation",
-		"npm:@tmustier/pi-files-widget",
-		"npm:@tmustier/pi-usage-extension",
-		"npm:pi-command-center",
-		"npm:pi-tool-display",
-		"npm:pi-compass",
-		"npm:pi-context",
-		"npm:@alexanderfortin/pi-loaded-tools",
-		"git:github.com/injaneity/pi-computer-use",
-		"npm:pi-monitor",
-		"npm:@tmustier/pi-agent-teams",
-		"npm:pi-ghostty-notifier",
-		"npm:pi-notify",
-		"npm:@ogulcancelik/pi-ghostty-theme-sync",
-		"npm:pi-lens",
-		"npm:@venthezone/picord",
-		"npm:@a5c-ai/babysitter-pi",
-		"npm:pi-studio",
-		"npm:pi-superpowers-plus"
-	],
-	"hideThinkingBlock": true,
-	"quietStartup": false,
-	"defaultThinkingLevel": "high",
-	"theme": "catppuccin-latte",
-	"steeringMode": "one-at-a-time",
-	"transport": "sse",
-	"doubleEscapeAction": "tree",
-	"defaultProvider": "openai-codex",
-	"defaultModel": "gpt-5.5",
-	"enabledModels": [
-		"openai-codex/gpt-5.5",
-		"openai-codex/gpt-5.4",
-		"openai-codex/gpt-5.3-codex",
-		"anthropic/claude-opus-4-7",
-		"anthropic/claude-opus-4-6"
-	],
-	"subagents": {
-		"agentOverrides": {
-			"context-builder": {
-				"model": "openai-codex/gpt-5.3-codex",
-				"thinking": "high"
-			},
-			"planner": {
-				"model": "openai-codex/gpt-5.3-codex",
-				"thinking": "high"
-			},
-			"researcher": {
-				"model": "openai-codex/gpt-5.3-codex",
-				"thinking": "high"
-			},
-			"scout": {
-				"model": "openai-codex/gpt-5.3-codex",
-				"thinking": "high"
-			},
-			"worker": {
-				"model": "openai-codex/gpt-5.3-codex",
-				"thinking": "high"
-			}
-		}
-	},
-	"powerline": {
-		"preset": "default",
-		"customItems": [
-			{
-				"id": "ci",
-				"statusKey": "ci-status",
-				"position": "right",
-				"prefix": "CI",
-				"color": "warning"
-			},
-			{
-				"id": "review",
-				"position": "secondary",
-				"hideWhenMissing": false,
-				"prefix": "review"
-			}
-		],
-		"vibe": {
-			"workingVibeMode": "file",
-			"theme": "theme",
-			"mode": "file"
-		}
-	}
+  "lastChangelogVersion": "0.70.5",
+  "packages": [
+    "npm:@thurstonsand/pi-powerline-footer",
+    "npm:pi-web-access",
+    "npm:pi-subagents",
+    "npm:pi-rtk-optimizer",
+    "npm:pi-btw",
+    "npm:@benvargas/pi-openai-fast",
+    "npm:@benvargas/pi-claude-code-use",
+    "npm:@sherif-fanous/pi-theme-sync",
+    "npm:@tintinweb/pi-tasks",
+    "npm:pi-ask-user",
+    "npm:pi-interactive-shell",
+    "npm:@aliou/pi-processes",
+    "npm:glimpseui",
+    "git:github.com/badlogic/pi-diff-review@1584211692c49780ecd0f490a82762b0823fd475",
+    "npm:pi-simplify",
+    "npm:@victor-software-house/pi-multicodex",
+    "../../Developer/repos/pi-packages",
+    "npm:@alexanderfortin/pi-loaded-tools",
+    "npm:@heyhuynhgiabuu/pi-pretty",
+    "npm:@heyhuynhgiabuu/pi-diff",
+    "npm:pi-lens"
+  ],
+  "disabledPackages": [
+    "npm:pi-tool-display",
+    "npm:@ff-labs/pi-fff",
+    "npm:@ogulcancelik/pi-session-recall",
+    "npm:pi-mcp-adapter",
+    "git:github.com/davebcn87/pi-autoresearch",
+    "npm:pi-mermaid",
+    "npm:pi-extension-manager",
+    "npm:pi-markdown-preview",
+    "npm:pi-annotate",
+    "npm:pi-screenshots-picker",
+    "git:github.com/joelhooks/pi-skill-interpolation",
+    "npm:@tmustier/pi-files-widget",
+    "npm:@tmustier/pi-usage-extension",
+    "npm:pi-command-center",
+    "npm:pi-compass",
+    "npm:pi-context",
+    "git:github.com/injaneity/pi-computer-use",
+    "npm:pi-monitor",
+    "npm:@tmustier/pi-agent-teams",
+    "npm:pi-ghostty-notifier",
+    "npm:pi-notify",
+    "npm:@ogulcancelik/pi-ghostty-theme-sync",
+    "npm:pi-lens",
+    "npm:@venthezone/picord",
+    "npm:@a5c-ai/babysitter-pi",
+    "npm:pi-studio",
+    "npm:pi-superpowers-plus"
+  ],
+  "hideThinkingBlock": true,
+  "quietStartup": false,
+  "enableInstallTelemetry": false,
+  "defaultThinkingLevel": "off",
+  "theme": "catppuccin-latte",
+  "steeringMode": "one-at-a-time",
+  "transport": "auto",
+  "doubleEscapeAction": "tree",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.5",
+  "enabledModels": [
+    "openai-codex/gpt-5.5",
+    "openai-codex/gpt-5.4",
+    "openai-codex/gpt-5.3-codex",
+    "anthropic/claude-opus-4-7",
+    "anthropic/claude-opus-4-6"
+  ],
+  "npmCommand": [
+    "mise",
+    "exec",
+    "node@24",
+    "--",
+    "npm"
+  ],
+  "powerline": {
+    "preset": "default",
+    "customItems": [
+      {
+        "id": "ci",
+        "statusKey": "ci-status",
+        "position": "right",
+        "prefix": "CI",
+        "color": "warning"
+      },
+      {
+        "id": "review",
+        "position": "secondary",
+        "hideWhenMissing": false,
+        "prefix": "review"
+      }
+    ],
+    "vibe": {
+      "workingVibeMode": "file",
+      "theme": "theme",
+      "mode": "file"
+    }
+  }
 }
