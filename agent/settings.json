@@ -20,10 +20,10 @@
     "../../Developer/repos/pi-packages",
     "npm:@alexanderfortin/pi-loaded-tools",
     "npm:@heyhuynhgiabuu/pi-pretty",
-    "npm:@heyhuynhgiabuu/pi-diff",
-    "npm:pi-lens"
+    "npm:@heyhuynhgiabuu/pi-diff"
   ],
   "disabledPackages": [
+    "npm:pi-lens",
     "npm:pi-tool-display",
     "npm:@ff-labs/pi-fff",
     "npm:@ogulcancelik/pi-session-recall",
@@ -55,8 +55,8 @@
   "hideThinkingBlock": true,
   "quietStartup": false,
   "enableInstallTelemetry": false,
-  "defaultThinkingLevel": "off",
-  "theme": "catppuccin-latte",
+  "defaultThinkingLevel": "medium",
+  "theme": "catppuccin-mocha",
   "steeringMode": "one-at-a-time",
   "transport": "auto",
   "doubleEscapeAction": "tree",
