@@ -58,7 +58,7 @@
   "quietStartup": false,
   "enableInstallTelemetry": false,
   "defaultThinkingLevel": "off",
-  "theme": "catppuccin-mocha",
+  "theme": "catppuccin-latte",
   "steeringMode": "one-at-a-time",
   "transport": "auto",
   "doubleEscapeAction": "tree",
