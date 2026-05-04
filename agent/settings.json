@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.70.5",
+  "lastChangelogVersion": "0.70.6",
   "packages": [
     "npm:@thurstonsand/pi-powerline-footer",
     "npm:pi-web-access",
@@ -19,12 +19,14 @@
     "npm:@victor-software-house/pi-multicodex",
     "../../Developer/repos/pi-packages",
     "npm:@alexanderfortin/pi-loaded-tools",
-    "npm:@heyhuynhgiabuu/pi-pretty",
-    "npm:@heyhuynhgiabuu/pi-diff"
+    "git:github.com/nicobailon/visual-explainer",
+    "npm:@plannotator/pi-extension",
+    "npm:pi-tool-display"
   ],
   "disabledPackages": [
+    "npm:@heyhuynhgiabuu/pi-pretty",
+    "npm:@heyhuynhgiabuu/pi-diff",
     "npm:pi-lens",
-    "npm:pi-tool-display",
     "npm:@ff-labs/pi-fff",
     "npm:@ogulcancelik/pi-session-recall",
     "npm:pi-mcp-adapter",
@@ -55,7 +57,7 @@
   "hideThinkingBlock": true,
   "quietStartup": false,
   "enableInstallTelemetry": false,
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "off",
   "theme": "catppuccin-mocha",
   "steeringMode": "one-at-a-time",
   "transport": "auto",
