@@ -57,7 +57,7 @@
   "hideThinkingBlock": true,
   "quietStartup": false,
   "enableInstallTelemetry": false,
-  "defaultThinkingLevel": "off",
+  "defaultThinkingLevel": "low",
   "theme": "catppuccin-latte",
   "steeringMode": "one-at-a-time",
   "transport": "auto",
