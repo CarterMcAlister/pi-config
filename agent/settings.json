@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.70.6",
+  "lastChangelogVersion": "0.73.0",
   "packages": [
     "npm:@thurstonsand/pi-powerline-footer",
     "npm:pi-web-access",
@@ -57,7 +57,7 @@
   "hideThinkingBlock": true,
   "quietStartup": false,
   "enableInstallTelemetry": false,
-  "defaultThinkingLevel": "low",
+  "defaultThinkingLevel": "high",
   "theme": "catppuccin-latte",
   "steeringMode": "one-at-a-time",
   "transport": "auto",
