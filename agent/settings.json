@@ -3,14 +3,11 @@
   "packages": [
     "npm:@thurstonsand/pi-powerline-footer",
     "npm:pi-web-access",
-    "npm:pi-subagents",
     "npm:pi-rtk-optimizer",
     "npm:pi-btw",
     "npm:@benvargas/pi-openai-fast",
     "npm:@benvargas/pi-claude-code-use",
     "npm:@sherif-fanous/pi-theme-sync",
-    "npm:@tintinweb/pi-tasks",
-    "npm:pi-ask-user",
     "npm:pi-interactive-shell",
     "npm:@aliou/pi-processes",
     "npm:glimpseui",
@@ -19,11 +16,15 @@
     "npm:@victor-software-house/pi-multicodex",
     "../../Developer/repos/pi-packages",
     "npm:@alexanderfortin/pi-loaded-tools",
-    "git:github.com/nicobailon/visual-explainer",
     "npm:@plannotator/pi-extension",
-    "npm:pi-tool-display"
+    "npm:pi-tool-display",
+    "npm:pi-goal"
   ],
   "disabledPackages": [
+    "git:github.com/nicobailon/visual-explainer",
+    "npm:@tintinweb/pi-tasks",
+    "npm:pi-subagents",
+    "npm:pi-ask-user",
     "npm:@heyhuynhgiabuu/pi-pretty",
     "npm:@heyhuynhgiabuu/pi-diff",
     "npm:pi-lens",
@@ -80,6 +81,7 @@
   ],
   "powerline": {
     "preset": "default",
+    "fixedEditor": true,
     "customItems": [
       {
         "id": "ci",
@@ -100,5 +102,6 @@
       "theme": "theme",
       "mode": "file"
     }
-  }
+  },
+  "treeFilterMode": "no-tools"
 }
