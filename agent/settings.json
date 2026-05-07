@@ -17,8 +17,8 @@
     "../../Developer/repos/pi-packages",
     "npm:@alexanderfortin/pi-loaded-tools",
     "npm:@plannotator/pi-extension",
-    "npm:pi-tool-display",
-    "npm:pi-goal"
+    "npm:pi-goal",
+    "npm:pi-tool-display"
   ],
   "disabledPackages": [
     "git:github.com/nicobailon/visual-explainer",
@@ -58,7 +58,7 @@
   "hideThinkingBlock": true,
   "quietStartup": false,
   "enableInstallTelemetry": false,
-  "defaultThinkingLevel": "high",
+  "defaultThinkingLevel": "medium",
   "theme": "catppuccin-latte",
   "steeringMode": "one-at-a-time",
   "transport": "auto",
