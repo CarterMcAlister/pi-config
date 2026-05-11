@@ -1,8 +1,6 @@
 {
-  "lastChangelogVersion": "0.73.0",
+  "lastChangelogVersion": "0.74.0",
   "packages": [
-    "npm:@thurstonsand/pi-powerline-footer",
-    "npm:pi-web-access",
     "npm:pi-rtk-optimizer",
     "npm:pi-btw",
     "npm:@benvargas/pi-openai-fast",
@@ -11,16 +9,39 @@
     "npm:pi-interactive-shell",
     "npm:@aliou/pi-processes",
     "npm:glimpseui",
-    "git:github.com/badlogic/pi-diff-review@1584211692c49780ecd0f490a82762b0823fd475",
-    "npm:pi-simplify",
-    "npm:@victor-software-house/pi-multicodex",
-    "../../Developer/repos/pi-packages",
-    "npm:@alexanderfortin/pi-loaded-tools",
-    "npm:@plannotator/pi-extension",
+    {
+      "source": "npm:@plannotator/pi-extension",
+      "skills": []
+    },
     "npm:pi-goal",
-    "npm:pi-tool-display"
+    "npm:pi-boomerang",
+    "https://github.com/mitsuhiko/ds4",
+    "npm:@howaboua/pi-codex-conversion@dev",
+    "npm:pi-librarian",
+    {
+      "source": "~/Developer/repos/pi-packages",
+      "extensions": [
+        "-packages/pi-codex-tools/src/index.ts",
+        "-packages/pi-codex-image-gen/src/index.ts",
+        "-packages/pi-utils/src/loop.ts",
+        "-packages/pi-codex-subagents/src/index.ts"
+      ],
+      "skills": [
+        "-packages/pi-codex-subagents/skills"
+      ],
+      "prompts": [
+        "-packages/pi-codex-subagents/prompts"
+      ]
+    },
+    "npm:pi-tool-display",
+    "npm:@alexanderfortin/pi-loaded-tools",
+    "npm:pi-intercom",
+    "npm:pi-design-deck",
+    "npm:pi-subagents"
   ],
   "disabledPackages": [
+    "npm:@thurstonsand/pi-powerline-footer",
+    "npm:pi-web-access",
     "git:github.com/nicobailon/visual-explainer",
     "npm:@tintinweb/pi-tasks",
     "npm:pi-subagents",
@@ -58,7 +79,7 @@
   "hideThinkingBlock": true,
   "quietStartup": false,
   "enableInstallTelemetry": false,
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "low",
   "theme": "catppuccin-latte",
   "steeringMode": "one-at-a-time",
   "transport": "auto",
@@ -82,6 +103,8 @@
   "powerline": {
     "preset": "default",
     "fixedEditor": true,
+    "workingVibes": false,
+    "welcomeOverlay": false,
     "customItems": [
       {
         "id": "ci",
@@ -93,7 +116,7 @@
       {
         "id": "review",
         "position": "secondary",
-        "hideWhenMissing": false,
+        "hideWhenMissing": true,
         "prefix": "review"
       }
     ],
@@ -101,7 +124,21 @@
       "workingVibeMode": "file",
       "theme": "theme",
       "mode": "file"
-    }
+    },
+    "showCost": false,
+    "showCacheRead": false
   },
-  "treeFilterMode": "no-tools"
+  "treeFilterMode": "no-tools",
+  "pi-multicodex": {
+    "footerItems": [
+      "account",
+      "5h",
+      "7d"
+    ],
+    "usageMode": "left",
+    "resetWindow": "7d",
+    "showAccount": true,
+    "showReset": true,
+    "order": "account-first"
+  }
 }
